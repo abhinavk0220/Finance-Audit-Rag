@@ -1,0 +1,3 @@
+Internal audit findings reveal gaps in documentation of control assessments. 
+There is no formal reporting to external auditors on control weaknesses. 
+Management is considering introducing quarterly reviews to align with SOX compliance standards.

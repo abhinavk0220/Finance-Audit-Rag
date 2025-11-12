@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+*.db
+*.sqlite3
+
+# Virtual environment
+auditRAG/
+venv/
+.env/
+
+# VS Code
+.vscode/
+
+# Logs
+backend/logs/
+*.log
+
+# Vectorstores / embeddings (optional)
+backend/data/vectorstores/faiss_store/
+backend/data/vectorstores/chroma_store/
+
+# Streamlit cache / temp
+frontend/.streamlit/
+
+# Pytest cache
+.pytest_cache/

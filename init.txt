@@ -1,0 +1,86 @@
+Excellent catch — yes, we **do need** the `__init__.py` files ✅
+They’re essential to make each folder (`core/`, `routes/`, etc.) behave as a **Python package**, so imports like:
+
+```python
+from backend.core.config import ...
+```
+
+work correctly instead of throwing `ModuleNotFoundError`.
+
+---
+
+### 📁 You’ll need these `__init__.py` files:
+
+#### 1️⃣ `backend/__init__.py`
+
+```python
+# backend/__init__.py
+# Marks the backend as a Python package
+```
+
+#### 2️⃣ `backend/core/__init__.py`
+
+```python
+# backend/core/__init__.py
+"""
+Core module for Finance Audit RAG backend.
+Includes configuration, RAG pipeline, retrievers, and utilities.
+"""
+```
+
+#### 3️⃣ `backend/routes/__init__.py`
+
+```python
+# backend/routes/__init__.py
+"""
+API routes for document ingestion and querying.
+"""
+```
+
+#### 4️⃣ (Optional) `backend/tests/__init__.py`
+
+If you plan to add unit tests later:
+
+```python
+# backend/tests/__init__.py
+"""
+Test suite for backend modules.
+"""
+```
+
+---
+
+### 🧩 Summary
+
+| File                  | Purpose                                 |
+| --------------------- | --------------------------------------- |
+| `backend/__init__.py` | Marks the backend root as a package     |
+| `core/__init__.py`    | Groups all core RAG logic               |
+| `routes/__init__.py`  | Groups FastAPI endpoints                |
+| `tests/__init__.py`   | Optional, for pytest to recognize tests |
+
+---
+
+Once these are in place, your imports like:
+
+```python
+from backend.core.utils import log_info
+```
+
+will always resolve cleanly — even when running the app from the project root.
+
+---
+
+Would you like me to now generate the final **`main.py`** (FastAPI entrypoint) to tie everything together and make your backend fully runnable?
+
+
+
+
+
+
+
+
+
+multipart
+dotenv
+langchain openai
