@@ -9,6 +9,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.routes import ingest_routes, query_routes
 from backend.core.utils import log_info
+import threading
+from backend.core.watchdog_service import start_watchdog
 
 app = FastAPI(
     title="Finance Audit RAG",
@@ -32,6 +34,10 @@ app.add_middleware(
 # --------------------------
 app.include_router(ingest_routes.router)
 app.include_router(query_routes.router)
+
+@app.on_event("startup")
+async def startup_event():
+    threading.Thread(target=start_watchdog, daemon=True).start()
 
 # --------------------------
 # Health Check

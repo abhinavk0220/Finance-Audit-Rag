@@ -59,3 +59,31 @@ Management anticipates Q3 filings will include enhanced risk factor disclosures 
 
 This report is classified as PRIVATE under internal data governance policy.
 Unauthorized distribution or external sharing of this document may result in disciplinary or legal action.
+
+CONFIDENTIAL – INTERNAL USE ONLY  
+Draft SEC Filing: Fiscal Year 2024 (Preliminary 10-K)  
+
+Company: Aegis Financial Holdings Inc.  
+Period Ending: December 31, 2024  
+
+Item 9A. Controls and Procedures  
+Management, including the Chief Executive Officer and Chief Financial Officer, evaluated the effectiveness of the Company’s disclosure controls and procedures as of December 31, 2024. Based on that evaluation, management concluded that the disclosure controls and procedures were effective.  
+
+However, internal audit identified several deficiencies in the segregation of duties within the treasury reconciliation process. Specifically, a single individual had access to both initiate and approve cash transfers. Management has initiated corrective actions to implement dual authorization controls by Q2 2025.  
+
+Item 15. Exhibits and Financial Statement Schedules  
+The Company maintains documentation supporting all journal entries exceeding $500,000. Independent auditors reviewed this process in accordance with PCAOB standards and reported no material weaknesses.  
+
+Sub-certification Process  
+Each business unit controller is required to provide quarterly sub-certifications regarding compliance with SOX 302 and 404 requirements.  
+During Q3 2024, two regional controllers submitted late certifications, and remediation actions are being tracked by Internal Audit.  
+
+Related Party Transactions  
+No material related party transactions were identified during fiscal year 2024.  
+Any future related party dealings must be disclosed in accordance with SEC Regulation S-K, Item 404.  
+
+Risk Management Summary  
+The primary risks facing the Company continue to be credit exposure from counterparties and operational risks due to outdated IT access control systems.  
+A full review of IT General Controls  (ITGC) will be completed before the next external audit cycle.  
+
+
