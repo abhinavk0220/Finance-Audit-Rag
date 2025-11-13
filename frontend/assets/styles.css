@@ -1,0 +1,186 @@
+/* ===== Base Layout ===== */
+[data-testid="stAppViewContainer"]:has(.app-container.dark) {
+    background: radial-gradient(circle at top left, #a01010, #0a0a0a 80%);
+    background-attachment: fixed;
+    color: #ffffff;
+}
+
+[data-testid="stAppViewContainer"]:has(.app-container.light) {
+    background: linear-gradient(135deg, #ffeaea, #ffffff);
+    background-attachment: fixed;
+    color: #111;
+}
+
+/* Make main content area transparent */
+[data-testid="stMain"] > div:first-child {
+    background: transparent;
+}
+
+/* Apply padding to the main content block */
+[data-testid="stMain"] .block-container {
+    padding: 2rem;
+}
+
+.app-container {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ===== Sidebar "Frosted Glass" ===== */
+[data-testid="stSidebar"] > div:first-child {
+    background: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-testid="stAppViewContainer"]:has(.app-container.dark) [data-testid="stSidebar"] {
+    color: #ffffff;
+    opacity: 0.9;
+    font-size: 1.05rem;
+}
+[data-testid="stAppViewContainer"]:has(.app-container.light) [data-testid="stSidebar"] {
+    color: #111;
+    font-size: 1.05rem;
+}
+
+/* ===== Header (Increased Font Size) ===== */
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.header h1 {
+    font-size: 3.0rem; /* Increased from 2.5rem */
+    background: linear-gradient(90deg, #ff4b2b, #ff416c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.header p {
+    opacity: 0.8;
+    font-size: 1.4rem; /* Increased from 1.2rem */
+}
+
+/* ===== Custom Chat Input (Black Font for visibility) ===== */
+[data-testid="stTextInput"] > div {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 0.6rem 0;
+}
+
+[data-testid="stAppViewContainer"]:has(.app-container.dark) [data-testid="stTextInput"] input {
+    background: transparent !important;
+    color: #000000 !important; /* Black font */
+    border: none !important;
+    padding-left: 1rem;
+    font-size: 1.15rem;
+}
+[data-testid="stAppViewContainer"]:has(.app-container.dark) [data-testid="stTextInput"] ::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+    font-size: 1.15rem;
+}
+
+
+/* ===== Custom Buttons ===== */
+[data-testid="stMain"] .stButton button {
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 1.05rem;
+}
+
+/* "Send" Button (Primary) */
+[data-testid="stMain"] .stButton:nth-of-type(1) button {
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 80, 80, 0.2);
+}
+[data-testid="stMain"] .stButton:nth-of-type(1) button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 80, 80, 0.4);
+}
+
+/* "Clear Chat" Button (Secondary) */
+[data-testid="stMain"] .stButton:nth-of-type(2) button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+[data-testid="stMain"] .stButton:nth-of-type(2) button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+
+/* ===== Chat Bubbles (Increased Font Size) ===== */
+.chat-bubble {
+    border-radius: 16px;
+    padding: 1.25rem 1.5rem;
+    margin: 1rem 0;
+    max-width: 80%;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.5s ease;
+    border: 1px solid;
+}
+.chat-bubble b {
+    display: block;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+}
+.chat-bubble span {
+    line-height: 1.6;
+    font-size: 1.2rem; /* Increased from 1.1rem */
+}
+
+/* User bubble */
+.user-bubble {
+    background: linear-gradient(135deg, rgba(255, 60, 60, 0.2), rgba(255, 100, 100, 0.1));
+    border-color: rgba(255, 90, 90, 0.3);
+    border-bottom-left-radius: 4px;
+    margin-left: auto;
+}
+
+/* Assistant bubble */
+.assistant-bubble {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+    border-bottom-right-radius: 4px;
+    margin-right: auto;
+}
+
+/* ===== Light Mode Overrides ===== */
+[data-testid="stAppViewContainer"]:has(.app-container.light) .chat-bubble {
+    color: #111;
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+}
+[data-testid="stAppViewContainer"]:has(.app-container.light) .assistant-bubble {
+    background: rgba(240, 240, 240, 0.7);
+}
+[data-testid="stAppViewContainer"]:has(.app-container.light) [data-testid="stTextInput"] > div {
+    background: rgba(255, 255, 255, 0.5);
+    border-color: rgba(0, 0, 0, 0.2);
+}
+[data-testid="stAppViewContainer"]:has(.app-container.light) [data-testid="stTextInput"] input {
+    color: #111 !important; 
+    font-size: 1.15rem;
+}
+[data-testid="stAppViewContainer"]:has(.app-container.light) [data-testid="stTextInput"] ::placeholder {
+    color: rgba(0, 0, 0, 0.4) !important;
+    font-size: 1.15rem;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,50 @@
+finance-audit-rag/
+│
+├── .env
+├── requirements.txt
+├── README.md
+│
+├── backend/
+│   ├── main.py                    # FastAPI entrypoint
+│   │
+│   ├── core/                      # Core logic for RAG + config
+│   │   ├── __init__.py
+│   │   ├── config.py              # Loads env vars + Azure setup
+│   │   ├── rag_pipeline.py        # Text → Embedding → VectorStore logic
+│   │   ├── retrievers.py          # Ensemble + retriever setup
+│   │   ├── memory_tool.py         # Custom memory + SEC update tool
+│   │   └── utils.py               # Helper functions (logging, loaders)
+│   │
+│   ├── routes/                    # FastAPI endpoints
+│   │   ├── __init__.py
+│   │   ├── ingest_routes.py       # /ingest endpoint (build vectorstores)
+│   │   └── query_routes.py        # /query endpoint (RAG inference)
+│   │
+│   ├── data/                      # Data sources and vector stores
+│   │   ├── sox_docs/              # Public SOX rulebook/reference texts
+│   │   ├── public_sec_docs/       # Public SEC filings
+│   │   ├── private_sec_docs/      # Private company filings (confidential)
+│   │   └── vectorstores/          # Saved embeddings (FAISS/Chroma)
+│   │       ├── faiss_store/
+│   │       └── chroma_store/
+│   │
+│   ├── services/                  # (Optional future) background tasks, Redis cache
+│   │   └── cache_service.py
+│   │
+│   ├── tests/                     # Unit + integration tests
+│   │   ├── test_ingest.py
+│   │   └── test_query.py
+│   │
+│   └── logs/                      # Log files (RAG activity, errors)
+│       └── app.log
+│
+└── frontend/                      # (Later) Streamlit dashboard
+    ├── app.py
+    └── assets/
+
+
+uvicorn backend.main:app --reload
+curl -X POST http://127.0.0.1:8000/query/ \-H "Content-Type: application/json" \-d "{\"query\": \"What are the key internal controls required under SOX section 404?\"}"
+
+
+https://github.com/abhinavk0220/Finance-Audit-Rag.git
