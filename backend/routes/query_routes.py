@@ -102,10 +102,6 @@ from backend.core.retrievers import get_federated_retriever
 from backend.core.memory_tool import AuditMemory
 from backend.core.utils import log_info, log_error
 from backend.core.config import settings
-<<<<<<< HEAD
-from langchain_openai import AzureChatOpenAI
-from langchain.chains import ConversationalRetrievalChain
-=======
 from backend.core.config import settings, get_azure_embeddings
 
 
@@ -116,7 +112,6 @@ from backend.core.cache_manager import SemanticCache
 
 
 
->>>>>>> 784a91d90a5cc8f2e275ad991238cee291e49024
 
 router = APIRouter(prefix="/query", tags=["Query"])
 
@@ -167,15 +162,6 @@ def get_azure_chat_model():
 
 # =========================================================
 # POST /query
-<<<<<<< HEAD
-# =========================================================
-@router.post("/")
-async def query_rag(request: QueryRequest):
-    """
-    Query the federated retriever (FAISS + Chroma)
-    and get a response from Azure GPT-4o-mini.
-    Includes Redis caching for faster repeated queries.
-=======
 # --------------------------
 # @router.post("/")
 # async def query_rag(request: QueryRequest):
@@ -219,7 +205,6 @@ async def query_rag(request: QueryRequest):
 async def query_rag(request: QueryRequest):
     """
     Query with semantic caching.
->>>>>>> 784a91d90a5cc8f2e275ad991238cee291e49024
     """
     start = time.time()
     query_text = request.query.strip().lower()  # 🧩 Normalize for caching key
@@ -227,25 +212,6 @@ async def query_rag(request: QueryRequest):
 
     try:
         log_info(f"🧠 Query received: {request.query}")
-<<<<<<< HEAD
-
-        # =========================================================
-        # ⚡ Check Redis cache (🧩 ADDED)
-        # =========================================================
-        if redis_client:
-            cached_response = redis_client.get(cache_key)
-            if cached_response:
-                print(f"[cache] ⚡ Cache hit for query: '{request.query}'")
-                return {
-                    "status": "success",
-                    "response": json.loads(cached_response),
-                    "source": "cache",
-                }
-
-        # =========================================================
-        # 🧠 Normal RAG flow
-        # =========================================================
-=======
         
         # ✅ CHECK CACHE FIRST
         cached_response = semantic_cache.get(request.query)
@@ -260,7 +226,6 @@ async def query_rag(request: QueryRequest):
         # ❌ CACHE MISS - Generate new response
         log_info("🔄 Cache miss, generating response...")
         
->>>>>>> 784a91d90a5cc8f2e275ad991238cee291e49024
         llm = get_azure_chat_model()
         retriever = get_federated_retriever()
         memory = AuditMemory()
@@ -291,15 +256,11 @@ async def query_rag(request: QueryRequest):
             print(f"[cache] 💾 Cached response for query: '{request.query}'")
 
         log_info(f"✅ Response generated in {round(time.time() - start, 2)}s")
-<<<<<<< HEAD
-        return {"status": "success", "response": answer, "source": "llm"}
-=======
         return {
             "status": "success",
             "response": answer,
             "cached": False
         }
->>>>>>> 784a91d90a5cc8f2e275ad991238cee291e49024
 
     except Exception as e:
         log_error(f"❌ Query failed: {e}")
