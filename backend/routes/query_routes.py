@@ -84,3 +84,14 @@ async def query_rag(request: QueryRequest):
     except Exception as e:
         log_error(f"❌ Query failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/test_retriever")
+async def test_retriever():
+    from backend.core.retrievers import get_federated_retriever
+    retriever = get_federated_retriever()
+    results = retriever.get_relevant_documents("SOX controls or compliance testing")
+    return {
+        "docs_found": len(results),
+        "samples": [r.page_content[:200] for r in results[:3]]
+    }

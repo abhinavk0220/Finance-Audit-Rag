@@ -120,33 +120,67 @@ def ingest_corpus(corpus_path: str, persist_path: Optional[str] = None):
 # -------------------------------
 # FAISS Store Creation
 # -------------------------------
-def create_faiss_store(documents: list, embeddings: Embeddings, store_path: str):
+# -------------------------------
+# FAISS Store Creation / Update
+# -------------------------------
+def create_faiss_store(documents: list, embeddings, store_path: str):
     """
-    Create or update a FAISS vectorstore with documents and embeddings.
+    Create or update a FAISS vectorstore with new documents.
+    If an existing store is found, append to it instead of overwriting.
     """
     import os
-    os.makedirs(store_path, exist_ok=True)
+    from langchain_community.vectorstores import FAISS
 
+    os.makedirs(store_path, exist_ok=True)
+    index_path = os.path.join(store_path, "index.faiss")
+    metadata_path = os.path.join(store_path, "index.pkl")
+
+    # ✅ If existing FAISS index exists, load it and add docs
+    if os.path.exists(index_path) and os.path.exists(metadata_path):
+        print(f"[FAISS] 🔁 Existing FAISS store found, appending new docs at {store_path}")
+        existing_store = FAISS.load_local(
+            store_path,
+            embeddings,
+            allow_dangerous_deserialization=True
+        )
+        existing_store.add_documents(documents)
+        existing_store.save_local(store_path)
+        print(f"[FAISS] ✅ Added {len(documents)} new docs.")
+        return existing_store
+
+    # ❌ Otherwise create a new one
+    print(f"[FAISS] 🆕 Creating new FAISS store at {store_path}")
     vectorstore = FAISS.from_documents(documents, embeddings)
-    faiss_file = os.path.join(store_path, "faiss_index")
-    vectorstore.save_local(faiss_file)
+    vectorstore.save_local(store_path)
+    print(f"[FAISS] ✅ New FAISS store created with {len(documents)} docs.")
     return vectorstore
 
 # -------------------------------
 # Chroma Store Creation
 # -------------------------------
-def create_chroma_store(documents: list, embeddings: Embeddings, store_path: str):
+# -------------------------------
+# Chroma Store Creation / Update
+# -------------------------------
+def create_chroma_store(documents: list, embeddings, store_path: str):
     """
-    Create or update a Chroma vectorstore with documents and embeddings.
+    Create or update a Chroma vectorstore with new documents.
     """
     import os
-    from langchain.vectorstores import Chroma
+    from langchain_community.vectorstores import Chroma
 
     os.makedirs(store_path, exist_ok=True)
+    print(f"[Chroma] 🔁 Updating or creating Chroma store at {store_path}")
 
-    vectorstore = Chroma.from_documents(documents, embedding=embeddings, persist_directory=store_path)
+    vectorstore = Chroma(
+        persist_directory=store_path,
+        embedding_function=embeddings,
+    )
+    vectorstore.add_documents(documents)
     vectorstore.persist()
+
+    print(f"[Chroma] ✅ Store updated with {len(documents)} new docs.")
     return vectorstore
+
 
 
 

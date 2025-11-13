@@ -10,7 +10,7 @@ st.title("📊 Finance Audit RAG Chat")
 query = st.text_input("Ask a question about SOX / SEC filings:")
 
 # Backend URL (adjust if running on a different host/port)
-API_URL = "http://127.0.0.1:8000/query/"
+API_URL = "http://localhost:8000/query/"
 
 if st.button("Submit") and query:
     with st.spinner("Fetching answer..."):
