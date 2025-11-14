@@ -17,6 +17,13 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "info")
 PORT = int(os.getenv("PORT", 8000))
 
+# =========AUTH==========
+# ==============AUTH========
+SECRET_KEY=os.getenv("SECRET_KEY","supersecretkey_change_this")
+ALGORITHM = os.getenv("ALGORITHM","HS256") 
+ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
+
+
 # =========================================================
 # 🧠 Azure OpenAI Configuration
 # =========================================================
@@ -103,6 +110,11 @@ class Settings:
     # backward compatibility
     AZURE_EMBEDDING_DEPLOYMENT = AZURE_EMBEDDING_MODEL
     AZURE_CHAT_DEPLOYMENT = AZURE_CHAT_MODEL
+
+    # AUTH
+    SECRET_KEY = SECRET_KEY
+    ALGORITHM = ALGORITHM
+    ACCESS_TOKEN_EXPIRE_MINUTES = ACCESS_TOKEN_EXPIRE_MINUTES
 
 
 

@@ -17,11 +17,23 @@ from backend.core.retrievers import get_federated_retriever
 from backend.core.memory_tool import AuditMemory
 from backend.core.utils import log_info, log_error
 from backend.core.config import settings
+<<<<<<< HEAD
 from backend.services.cache_service import get_cache_instance
+=======
+from backend.core.config import settings, get_azure_embeddings
+
+>>>>>>> aa5ec9634da0d7f97d559e36926afef5e4b35c83
 
 from langchain_openai import AzureChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
 import time
+<<<<<<< HEAD
+=======
+from backend.core.cache_manager import SemanticCache
+
+
+
+>>>>>>> aa5ec9634da0d7f97d559e36926afef5e4b35c83
 
 router = APIRouter(prefix="/query", tags=["Query"])
 
@@ -58,6 +70,7 @@ log_info("[QueryRoutes] ✅ Semantic cache initialized")
 
 
 # =========================================================
+<<<<<<< HEAD
 # 📨 Request/Response Models
 # =========================================================
 
@@ -69,6 +82,68 @@ class QueryRequest(BaseModel):
         json_schema_extra = {
             "example": {
                 "query": "Explain section 302 compliance requirements"
+=======
+# POST /query
+# --------------------------
+# @router.post("/")
+# async def query_rag(request: QueryRequest):
+#     """
+#     Query the federated retriever (FAISS + Chroma)
+#     and get a response from Azure GPT-4o-mini.
+#     """
+#     start = time.time()
+#     try:
+#         log_info(f"🧠 Query received: {request.query}")
+
+#         # Initialize components
+#         llm = get_azure_chat_model()
+#         retriever = get_federated_retriever()
+#         memory = AuditMemory()
+
+#         # Build RAG Chain
+#         chain = ConversationalRetrievalChain.from_llm(
+#             llm=llm,
+#             retriever=retriever,
+#             memory=memory.memory,
+#             verbose=False,
+#         )
+
+#         # Generate answer
+#         response = chain.invoke({"question": request.query})
+#         answer = response["answer"]
+
+#         # Log and save memory
+#         memory.add_message("user", request.query)
+#         memory.add_message("ai", answer)
+#         memory.save_memory()
+
+#         log_info(f"✅ Response generated in {round(time.time() - start, 2)}s")
+#         return {"status": "success", "response": answer}
+
+#     except Exception as e:
+#         log_error(f"❌ Query failed: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+@router.post("/")
+async def query_rag(request: QueryRequest):
+    """
+    Query with semantic caching.
+    """
+    start = time.time()
+    query_text = request.query.strip().lower()  # 🧩 Normalize for caching key
+    cache_key = f"query_cache:{query_text}"
+
+    try:
+        log_info(f"🧠 Query received: {request.query}")
+        
+        # ✅ CHECK CACHE FIRST
+        cached_response = semantic_cache.get(request.query)
+        if cached_response:
+            log_info(f"⚡ Cache hit! Response time: {round(time.time() - start, 2)}s")
+            return {
+                "status": "success",
+                "response": cached_response,
+                "cached": True  # Let frontend know it's cached
+>>>>>>> aa5ec9634da0d7f97d559e36926afef5e4b35c83
             }
         }
 
@@ -105,6 +180,7 @@ async def query_rag(request: QueryRequest):
     Returns:
         QueryResponse with answer, cache status, and timing
         
+<<<<<<< HEAD
     Example:
         POST /query
         {
@@ -142,6 +218,8 @@ async def query_rag(request: QueryRequest):
         log_info("[Query] 🔄 Cache MISS - generating response via RAG...")
         
         # Initialize RAG components
+=======
+>>>>>>> aa5ec9634da0d7f97d559e36926afef5e4b35c83
         llm = get_azure_chat_model()
         retriever = get_federated_retriever()
         memory = AuditMemory()
@@ -166,6 +244,7 @@ async def query_rag(request: QueryRequest):
         
         # ✅ STEP 3: Store in cache for future similar queries
         semantic_cache.set(request.query, answer)
+<<<<<<< HEAD
         
         elapsed = round(time.time() - start_time, 3)
         log_info(f"[Query] ✅ Response generated in {elapsed}s")
@@ -177,6 +256,23 @@ async def query_rag(request: QueryRequest):
             response_time_seconds=elapsed
         )
     
+=======
+
+        # =========================================================
+        # 💾 Save to Redis cache (🧩 ADDED)
+        # =========================================================
+        if redis_client:
+            redis_client.setex(cache_key, 3600, json.dumps(answer))  # 1 hour TTL
+            print(f"[cache] 💾 Cached response for query: '{request.query}'")
+
+        log_info(f"✅ Response generated in {round(time.time() - start, 2)}s")
+        return {
+            "status": "success",
+            "response": answer,
+            "cached": False
+        }
+
+>>>>>>> aa5ec9634da0d7f97d559e36926afef5e4b35c83
     except Exception as e:
         elapsed = round(time.time() - start_time, 3)
         log_error(f"[Query] ❌ Failed after {elapsed}s: {e}")
